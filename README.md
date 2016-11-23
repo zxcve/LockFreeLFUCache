@@ -4,11 +4,11 @@ Your program should be invoked with five arguments:
 ```bash
 java project.benchmarks.Main c s v l n
 ```
-c: type of cache [Sequential, Coarsegrain]
-s: cache size [int]
-v: variance of addresses to read [%]
-l: number of reads [int]
-n: number of threads [int]
+c: type of cache [Sequential, Coarsegrain]  
+s: cache size [int]  
+v: variance of addresses to read [%]  
+l: number of reads [int]  
+n: number of threads [int]  
 ### Running
 To run the cache simulation make and execute Main.class
 ```bash

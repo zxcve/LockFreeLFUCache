@@ -1,5 +1,9 @@
+package project.sequential;
+
 import java.util.Hashtable;
 import java.util.LinkedList;
+
+import project.benchmarks.Cache;
 
 public class LFUCache<K, V> implements Cache<K, V> {
 

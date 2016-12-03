@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import project.cache.Cache;
 import project.cache.CoarsegrainLFU;
 import project.cache.ConcurrentLFU;
-import project.cache.ConcurrentLFU2;
 import project.cache.NonLinearizableLFU;
 import project.cache.SequentialLFU;
 import project.util.IODevice;
@@ -79,10 +78,16 @@ public class Main {
 			cache = new CoarsegrainLFU(cacheSize);
 		} else if ("Concurrent".equals(args[0])) {
 			cache = new ConcurrentLFU(cacheSize);
-		} else if ("Concurrent2".equals(args[0])) {
-			cache = new ConcurrentLFU2(cacheSize);
 		} else if ("Nonlinearizable".equals(args[0])) {
 			cache = new NonLinearizableLFU(cacheSize);
+		} else if ("Nocache".equals(args[0])) {
+			class NoCache implements Cache {
+				@Override
+				public char get(int key) {
+					return IODevice.read(key);
+				}
+			}
+			cache = new NoCache();
 		} else {
 			exit("No cache with name: " + args[0]);
 		}

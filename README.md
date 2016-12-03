@@ -4,7 +4,7 @@ Your program should be invoked with five arguments:
 ```bash
 java project.benchmarks.Main c s v l n
 ```
-c: type of cache [Sequential, Coarsegrain, Concurrent, Concurrent2, Nonlinearizable]  
+c: type of cache [Nocache, Sequential, Coarsegrain, Concurrent, Nonlinearizable]  
 s: cache size [%]  
 v: variance of addresses to read [%]  
 l: number of reads [int]  

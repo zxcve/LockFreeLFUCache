@@ -1,8 +1,14 @@
 JAVAC   = javac
 sources = project/benchmarks/Main.java \
-          project/benchmarks/Cache.java \
-          project/sequential/LFUCache.java \
-          project/coarsegrain/CoarseGrainLFUCache.java
+          project/cache/Cache.java \
+          project/cache/CoarsegrainLFU.java \
+          project/cache/ConcurrentLFU.java \
+          project/cache/ConcurrentLFU2.java \
+          project/cache/NonLinearizableLFU.java \
+          project/cache/SequentialLFU.java \
+          project/util/ConcurrentDoublyLinkedList.java \
+          project/util/IODevice.java
+
 classes = $(sources:.java=.class)
 
 all: $(classes)

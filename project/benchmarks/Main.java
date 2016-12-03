@@ -64,6 +64,9 @@ public class Main {
 		float variance = Float.parseFloat(args[2]);
 		int len = Integer.parseInt(args[3]);
 		int nThreads = Integer.parseInt(args[4]);
+		if (len < nThreads) {
+			exit("Not enough reads for threads");
+		}
 		/* Initialize cache */
 		int cacheSize = (int) (Integer.parseInt(args[1]) / 100.0 * IODevice.fileSize);
 		if (cacheSize == 0) {

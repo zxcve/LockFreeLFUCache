@@ -67,6 +67,9 @@ public class Main {
 		int nThreads = Integer.parseInt(args[4]);
 		/* Initialize cache */
 		int cacheSize = (int) (Integer.parseInt(args[1]) / 100.0 * IODevice.fileSize);
+		if (cacheSize == 0) {
+			exit("Cache size too small");
+		}
 		Cache cache = null;
 		if ("Sequential".equals(args[0])) {
 			if (nThreads > 1)

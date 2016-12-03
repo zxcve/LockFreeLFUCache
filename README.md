@@ -1,4 +1,4 @@
-# Multithreaded Network Cache
+# Concurrent Network Cache
 ## Usage
 Your program should be invoked with five arguments:
 ```bash

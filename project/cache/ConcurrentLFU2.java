@@ -383,7 +383,7 @@ public class ConcurrentLFU2 implements Cache {
 				char data = getFromMemory(key);
 				DataNode<Integer, Character> node = new DataNode<Integer, Character>(key, data);
 				dataNode = hashMap.putIfAbsent(key, node);
-				if (hashMap.size() >= maxSize && dataNode == null) {
+				if (hashMap.size() > maxSize && dataNode == null) {
 					evict();
 				}
 			}

@@ -369,12 +369,11 @@ public class NonLinearizableLFU implements Cache {
 			}
 
 			if (popBack(node)) {
-				currentSize.getAndDecrement();
 				break;
 			}
 		}
 	}
-	
+
 	@Override
 	public char get(int key) {
 
@@ -384,11 +383,11 @@ public class NonLinearizableLFU implements Cache {
 			if (dataNode == null) {
 				char data = getFromMemory(key);
 				DataNode<Integer, Character> node = new DataNode<Integer, Character>(key, data);
-				int mySize = currentSize.getAndIncrement();
-				if (mySize >= maxSize) {
+				dataNode = hashMap.putIfAbsent(key, node);
+				if (dataNode == null && currentSize.getAndIncrement() >= maxSize) {
 					evict();
+					currentSize.getAndDecrement();
 				}
-				hashMap.putIfAbsent(key, node);
 			}
 
 			while (true) {
@@ -435,21 +434,6 @@ public class NonLinearizableLFU implements Cache {
 					}
 				}
 			}
-		}
-	}
-
-	public void print() {
-		FreqNode tmp = head;
-		DataNode<Integer, Character> tmp2;
-		while (tmp != null) {
-			tmp2 = tmp.head;
-			while (tmp2 != tmp.tail) {
-				System.out.println(tmp.freq + " " + tmp.next.isMarked() + "->" + "<" + tmp2.key + ","
-						+ tmp2.next.isMarked() + ">");
-				tmp2 = tmp2.next.getReference();
-			}
-			System.out.println("************");
-			tmp = tmp.next.getReference();
 		}
 	}
 }

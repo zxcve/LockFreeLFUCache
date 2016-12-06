@@ -10,7 +10,7 @@ import project.cache.SequentialLFU;
 import project.util.IODevice;
 
 public class Main {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private Cache cache;
 
 	public Main(Cache cache, float variance, int len, int nThreads) {

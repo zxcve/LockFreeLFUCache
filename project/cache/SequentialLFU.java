@@ -28,7 +28,7 @@ public class SequentialLFU implements Cache {
 		FrequencyNode parent = item.parent;
 		FrequencyNode newParent;
 		if (null == parent.next || parent.next.value != parent.value + 1) {
-			newParent = addNewFrequencyNode(parent.value + 1, parent, null);
+			newParent = addNewFrequencyNode(parent.value + 1, parent, parent.next);
 		} else {
 			newParent = parent.next;
 		}
@@ -68,6 +68,9 @@ public class SequentialLFU implements Cache {
 		FrequencyNode freqNode = sentinalHead.next;
 		ItemNode item = freqNode.items.removeLast();
 		hashtable.remove(item.key);
+		if (0 == freqNode.items.size()) {
+			freqNode.remove();
+		}
 	}
 
 	private FrequencyNode addNewFrequencyNode(int value, FrequencyNode prev, FrequencyNode next) {
@@ -126,7 +129,11 @@ public class SequentialLFU implements Cache {
 		for (FrequencyNode tmp = sentinalHead.next; tmp != null; tmp = tmp.next) {
 			System.out.print(tmp.value + " " + "-> ");
 			for (ItemNode item : tmp.items) {
-				System.out.print(item.value + " ");
+				char value = item.value;
+				if (value == ' ') {
+					value = '*';
+				}
+				System.out.print(value + " ");
 			}
 			System.out.println();
 			System.out.println("************");

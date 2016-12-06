@@ -232,10 +232,11 @@ public class ConcurrentLFU implements Cache {
 	void pushEnd(DataNode<Integer, Character> node, DataNode<Integer, Character> succ) {
 
 		while (true) {
+			DataNode<Integer, Character> pred = succ.prev.getReference();
 			if (succ.prev.isMarked() || node.next.getReference() != succ)
 				return;
 
-			if (succ.prev.compareAndSet(succ.prev.getReference(), node, false, false))
+			if (succ.prev.compareAndSet(pred, node, false, false))
 				break;
 		}
 		if (node.prev.isMarked())

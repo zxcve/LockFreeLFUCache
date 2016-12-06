@@ -121,4 +121,15 @@ public class SequentialLFU implements Cache {
 		}
 	}
 
+	@Override
+	public void print() {
+		for (FrequencyNode tmp = sentinalHead.next; tmp != null; tmp = tmp.next) {
+			System.out.print(tmp.value + " " + "-> ");
+			for (ItemNode item : tmp.items) {
+				System.out.print(item.value + " ");
+			}
+			System.out.println();
+			System.out.println("************");
+		}
+	}
 }

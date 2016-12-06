@@ -10,6 +10,7 @@ import project.cache.SequentialLFU;
 import project.util.IODevice;
 
 public class Main {
+	private static final boolean DEBUG = false;
 	private Cache cache;
 
 	public Main(Cache cache, float variance, int len, int nThreads) {
@@ -38,6 +39,10 @@ public class Main {
 		/* Results */
 		System.out.print("\n");
 		System.out.println(end + " ms");
+		if (DEBUG) {
+			System.out.println("Cache print\n************");
+			cache.print();
+		}
 	}
 
 	private char readRandom(float variance) {
@@ -88,6 +93,10 @@ public class Main {
 				@Override
 				public char get(int key) {
 					return IODevice.read(key);
+				}
+
+				@Override
+				public void print() {
 				}
 			}
 			cache = new NoCache();

@@ -436,4 +436,20 @@ public class NonLinearizableLFU implements Cache {
 			}
 		}
 	}
+
+	@Override
+	public void print() {
+		FreqNode tmp = head.next.getReference();
+		DataNode<Integer, Character> tmp2;
+		while (tmp != tail) {
+			tmp2 = tmp.head.next.getReference();
+			System.out.print(tmp.freq + " " + "-> ");
+			while (tmp2 != tmp.tail) {
+				System.out.print(tmp2.data + " ");
+				tmp2 = tmp2.next.getReference();
+			}
+			System.out.println("\n************");
+			tmp = tmp.next.getReference();
+		}
+	}
 }

@@ -1,6 +1,6 @@
 # Concurrent Network Cache
 ## Usage
-Your program should be invoked with five arguments:
+Your program should be invoked with six arguments:
 ```bash
 java project.benchmarks.Main c s v l n v
 ```

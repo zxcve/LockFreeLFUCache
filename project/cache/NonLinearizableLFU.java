@@ -448,7 +448,8 @@ public class NonLinearizableLFU implements Cache {
 			while (tmp2 != tmp.tail) {
 				char value = tmp2.data;
 				if (value == ' ') {
-					value = '*';
+					/* Show space */
+					value = '_';
 				}
 				System.out.print(value + " ");
 				tmp2 = tmp2.next.getReference();

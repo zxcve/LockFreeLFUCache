@@ -10,17 +10,16 @@ import project.cache.SequentialLFU;
 import project.util.IODevice;
 
 public class Main {
-	private static final boolean DEBUG = true;
 	private Cache cache;
 
-	public Main(Cache cache, float variance, int len, int nThreads) {
+	public Main(Cache cache, float variance, int len, int nThreads, boolean verbose) {
 		/* Initialize variables */
 		this.cache = cache;
 		int reads = len / nThreads;
 		/* Initialize threads */
 		Thread[] threads = new Thread[nThreads];
 		for (int i = 0; i < threads.length; i++) {
-			threads[i] = makeThread(variance, reads);
+			threads[i] = makeThread(variance, reads, verbose);
 		}
 		/* Run threads */
 		long start = System.currentTimeMillis();
@@ -37,12 +36,12 @@ public class Main {
 		}
 		long end = System.currentTimeMillis() - start;
 		/* Results */
-		System.out.print("\n");
-		System.out.println(end + " ms");
-		if (DEBUG) {
-			System.out.println("Cache print\n************");
-			cache.print();
+		if (verbose) {
+			System.out.print("\n");
 		}
+		System.out.println(end + " ms");
+		System.out.println("Cache print\n************");
+		cache.print();
 	}
 
 	private char readRandom(float variance) {
@@ -51,11 +50,14 @@ public class Main {
 		return cache.get(addr);
 	}
 
-	private Thread makeThread(float variance, int reads) {
+	private Thread makeThread(float variance, int reads, boolean verbose) {
 		return new Thread(new Runnable() {
 			public void run() {
 				for (int i = 0; i < reads; i++) {
-					System.out.print(readRandom(variance));
+					char read = readRandom(variance);
+					if (verbose) {
+						System.out.print(read);
+					}
 				}
 			}
 		});
@@ -63,8 +65,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		/* Check args */
-		if (args.length < 5 || args.length > 6 || Integer.parseInt(args[1]) < 0 || Integer.parseInt(args[1]) > 100
-				|| Float.parseFloat(args[2]) > 100 || Float.parseFloat(args[2]) < 0 || Integer.parseInt(args[4]) < 1)
+		if (args.length < 6 || args.length > 7 || Integer.parseInt(args[1]) < 0 || Integer.parseInt(args[1]) > 100
+				|| Float.parseFloat(args[2]) > 100 || Float.parseFloat(args[2]) < 0 || Integer.parseInt(args[4]) < 1
+				|| !(Boolean.parseBoolean(args[5]) == false || Boolean.parseBoolean(args[5]) == true))
 			exit("Invalid args");
 		float variance = Float.parseFloat(args[2]);
 		int len = Integer.parseInt(args[3]);
@@ -72,6 +75,7 @@ public class Main {
 		if (len < nThreads) {
 			exit("Not enough reads for threads");
 		}
+		boolean verbose = Boolean.parseBoolean(args[5]);
 		/* Initialize cache */
 		int cacheSize = (int) (Integer.parseInt(args[1]) / 100.0 * IODevice.fileSize);
 		if (cacheSize == 0) {
@@ -103,7 +107,7 @@ public class Main {
 		} else {
 			exit("No cache with name: " + args[0]);
 		}
-		new Main(cache, variance, len, nThreads);
+		new Main(cache, variance, len, nThreads, verbose);
 	}
 
 	private static void exit(String msg) {

@@ -131,7 +131,8 @@ public class SequentialLFU implements Cache {
 			for (ItemNode item : tmp.items) {
 				char value = item.value;
 				if (value == ' ') {
-					value = '*';
+					/* Show space */
+					value = '_';
 				}
 				System.out.print(value + " ");
 			}
